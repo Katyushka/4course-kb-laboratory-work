@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
+    private static final Logger log = LoggerFactory.getLogger(IndexController.class);
 
     @RequestMapping("/")
     public String getHomePage(Model model) {
