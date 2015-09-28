@@ -1,6 +1,7 @@
 package com.kb.web.controllers.parallelprogramming;
 
 import com.kb.model.parallelprogramming.dto.MidpointRuleForm;
+import com.kb.service.parallelprogramming.CalculateIntegralThread;
 import com.kb.service.parallelprogramming.ThreadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +14,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/pp")
 public class ThreadsController {
     private static final Logger log = LoggerFactory.getLogger(ThreadsController.class);
 
+    private static final int POOL_SIZE = 3;
+
     @Autowired
     private ThreadService threadService;
+
+    private List<CalculateIntegralThread> threadPool = new ArrayList<>();
+
+    @PostConstruct
+    private void init() {
+    }
 
     @RequestMapping("/lab1")
     public String getIntegral(Model model) {
@@ -29,7 +42,7 @@ public class ThreadsController {
 
     @RequestMapping(value = "/lab1", method = RequestMethod.POST)
     public String calculateIntegral(@ModelAttribute("midpointRuleForm") MidpointRuleForm midpointRuleForm, BindingResult bindingResult, Model model) {
-        threadService.calculateMidpointRuleIntegral(midpointRuleForm);
+        threadService.calculateMidpointRuleIntegral(midpointRuleForm, threadPool, POOL_SIZE);
         return "parallelprogramming/threads";
     }
 }

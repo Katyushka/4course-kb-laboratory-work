@@ -3,9 +3,12 @@ package com.kb.service.parallelprogramming;
 
 import com.kb.model.parallelprogramming.dto.MidpointRuleForm;
 import com.kb.util.Integrals;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ThreadService {
@@ -25,10 +28,50 @@ public class ThreadService {
         return midpointRuleForm;
     }
 
-    public MidpointRuleForm calculateMidpointRuleIntegral(MidpointRuleForm midpointRuleForm) {
-        midpointRuleForm.setResult(calculateIntegral(midpointRuleForm.getFunction(), midpointRuleForm.getLeft(), midpointRuleForm.getRight(),
-                (midpointRuleForm.getRight() - midpointRuleForm.getLeft()) / midpointRuleForm.getStepsCount()));
+    public MidpointRuleForm calculateMidpointRuleIntegral(MidpointRuleForm midpointRuleForm, List<CalculateIntegralThread> pool, int poolSize) {
+        pool.clear();
+        for (int i = 0; i < poolSize; i++) {
+            pool.add(new CalculateIntegralThread(midpointRuleForm.getFunction(), midpointRuleForm.getLeft(i, poolSize), midpointRuleForm.getRight(i, poolSize),
+                    (midpointRuleForm.getRight() - midpointRuleForm.getLeft()) / midpointRuleForm.getStepsCount(), i));
+        }
+        double result = 0;
+        try {
+            if (midpointRuleForm.isParallel()) {
+                result = getParallelCalculation(pool);
+            } else {
+                result = getConsistencyCalculation(pool);
+            }
+        } catch (InterruptedException e) {
+            log.debug(ExceptionUtils.getMessage(e));
+        }
+        midpointRuleForm.setResult(result);
         return midpointRuleForm;
+    }
+
+    private double getParallelCalculation(List<CalculateIntegralThread> pool) throws InterruptedException {
+        double result = 0;
+        for (CalculateIntegralThread thread : pool) {
+            thread.start();
+        }
+        for (CalculateIntegralThread thread : pool) {
+            thread.join();
+        }
+        for (CalculateIntegralThread thread : pool) {
+            result += thread.getResult();
+        }
+        return result;
+    }
+
+    private double getConsistencyCalculation(List<CalculateIntegralThread> pool) throws InterruptedException {
+        double result = 0;
+        for (CalculateIntegralThread thread : pool) {
+            thread.start();
+            thread.join();
+        }
+        for (CalculateIntegralThread thread : pool) {
+            result += thread.getResult();
+        }
+        return result;
     }
 
     private double calculateIntegral(String function, double left, double right, double step) {

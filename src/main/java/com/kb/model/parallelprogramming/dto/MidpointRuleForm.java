@@ -10,15 +10,17 @@ public class MidpointRuleForm implements Serializable {
     private double right;
     private String function;
     private double result = 0;
+    private boolean parallel = false;
 
     public MidpointRuleForm() {
     }
 
-    public MidpointRuleForm(int stepsCount, double left, double right, String function) {
+    public MidpointRuleForm(int stepsCount, double left, double right, String function, boolean parallel) {
         this.stepsCount = stepsCount;
         this.left = left;
         this.right = right;
         this.function = function;
+        this.parallel = parallel;
     }
 
     public String getFunction() {
@@ -33,12 +35,20 @@ public class MidpointRuleForm implements Serializable {
         return right;
     }
 
+    public double getRight(int index, int count) {
+        return left + (right - left) / count  * (index+1);
+    }
+
     public void setRight(double right) {
         this.right = right;
     }
 
     public double getLeft() {
         return left;
+    }
+
+    public double getLeft(int index, int count) {
+        return left + ((right - left) / count) * index;
     }
 
     public void setLeft(double left) {
@@ -59,5 +69,13 @@ public class MidpointRuleForm implements Serializable {
 
     public void setResult(double result) {
         this.result = result;
+    }
+
+    public boolean isParallel() {
+        return parallel;
+    }
+
+    public void setParallel(boolean parallel) {
+        this.parallel = parallel;
     }
 }
