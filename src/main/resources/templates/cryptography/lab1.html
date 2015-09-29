@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lab 1: ... </title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
+    <h1>Lab 1: Calculation of entropy</h1>
+    <hr/>
+    <form th:action="@{/crypt/lab1}" th:object="${form}" th:method="post">
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+
+                <div class="form-group">
+                    <label for="m">Количество открытых текстов M:</label>
+                    <input type="text" class="form-control" id="m" required="required" th:field="*{m}"/>
+                </div>
+                <div class="form-group">
+                    <label for="k">Количество ключевого множества K:</label>
+                    <input type="text" class="form-control" id="k" required="required" th:field="*{k}"/>
+                </div>
+                <div class="form-group">
+                    <label for="c">Количество криптограмм C:</label>
+                    <input type="text" class="form-control" id="c" required="required" th:field="*{countC}"/>
+                </div>
+                <button class="form-control btn btn-success" name="build" type="submit">build</button>
+                <div class="form-group">
+                    <div th:if="${form.c.size()>0}">
+                        <label style="margin-top: 15px;">Таблица криптограмм:</label>
+                        <table style="margin-top: 15px;">
+                            <tr th:each="row, rowId : ${form.c}">
+                                <td th:each="col, colId : ${row}">
+                                    <input class="form-control" type="text"
+                                           th:field="*{c[__${rowId.index}__][__${colId.index}__]}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <label style="margin-top: 15px;">Вероятности открытых текстов:</label>
+
+                        <div th:if="${form.pM.size()>0}">
+                            <table style="margin-top: 15px;">
+                                <tr>
+                                    <td th:each="row, rowId : ${form.pM}" style="margin-right: 10px;">
+                                        <input class="form-control" type="text" th:field="*{pM[__${rowId.index}__]}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <label style="margin-top: 15px;">Вероятности ключей:</label>
+
+                        <div th:if="${form.pK.size()>0}">
+                            <table style="margin-top: 15px;">
+                                <tr>
+                                    <td th:each="row, rowId : ${form.pK}" style="margin-right: 10px;">
+                                        <input class="form-control" type="text" th:field="*{pK[__${rowId.index}__]}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <button class="form-control btn btn-success" name="generate" type="submit"
+                                style="margin-top: 15px;">generate
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div th:if="${form.pC.size()>0}">
+                    <label style="margin-top: 15px;">Вероятности криптограмм:</label>
+                    <table style="margin-top: 15px;">
+                        <tr>
+                            <td th:each="row, rowId : ${form.pC}" style="margin-right: 10px;">
+                                <input class="form-control" type="text" th:field="*{pC[__${rowId.index}__]}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <span th:text="${form.countC}"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
