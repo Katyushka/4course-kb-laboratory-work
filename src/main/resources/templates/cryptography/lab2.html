@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lab 2: Spectra </title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootgetParsevalEqualitystrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
+    <h1>Lab 2: Calculation of Fourier spectrum and Walsh-Adamar spectrum</h1>
+    <hr/>
+    <form th:action="@{/crypt/lab2}" th:object="${form}" th:method="post">
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+
+                <div class="form-group">
+                    <label for="vectorBF">Вектор БФ:</label>
+                    <input type="text" class="form-control" id="vectorBF" required="required" th:field="*{vectorBF}"/>
+                </div>
+
+                <button class="form-control btn btn-success" name="generate" type="submit">generate</button>
+                <div>
+                    <label style="margin-top: 15px;">Спектр Фурье:</label>
+                    <span th:text="${form.getSpectrumFourier()}"></span>
+                </div>
+                <div>
+                    <label style="margin-top: 15px;">Спектр Уолша-Адамара:</label>
+                    <span th:text="${form.getSpectrumWalshAdamar()}"></span>
+                </div>
+                <div>
+                    <label style="margin-top: 15px;">Равенство Парсеваля:</label>
+                    <span th:text="${form.getParsevalEquality()}"></span>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+</body>
+</html>

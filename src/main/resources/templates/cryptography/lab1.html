@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Lab 1: ... </title>
+    <title>Lab 1: Entropy </title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
@@ -79,8 +79,28 @@
                             </td>
                         </tr>
                     </table>
+                    <label style="margin-top: 15px;">H(М):</label>
+                    <span th:text="${form.getEntropyM()}"></span>
+
+                    <div>
+                        <label style="margin-top: 15px;">H(K):</label>
+                        <span th:text="${form.getEntropyK()}"></span>
+                    </div>
+                    <div>
+                        <label style="margin-top: 15px;">H(С):</label>
+                        <span th:text="${form.getEntropyC()}"></span>
+                    </div>
+                    <div>
+                        <label style="margin-top: 15px;">H(K|C):</label>
+                        <span th:text="${form.getEntropyKC()}"></span>
+                    </div>
+                    <div>
+                        <label style="margin-top: 15px;">H(K)-H(K|C):</label>
+                        <span th:text="${form.getEntropyK()-form.getEntropyKC()}"></span>
+                    </div>
+
                 </div>
-                <span th:text="${form.countC}"></span>
+
             </div>
         </div>
     </form>

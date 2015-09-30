@@ -17,6 +17,13 @@ public class EntropyForm implements Serializable {
     private List<Double> pK = new ArrayList<>();
     private List<Double> pC = new ArrayList<>();
 
+    private double entropyM = 0;
+    private double entropyK = 0;
+    private double entropyC = 0;
+    private double entropyKC = 0;
+
+
+
     public int getM() {
         return m;
     }
@@ -33,13 +40,6 @@ public class EntropyForm implements Serializable {
         this.k = k;
     }
 
-    public int getCountC() {
-        return countC;
-    }
-
-    public void setCountC(int m) {
-        this.countC = countC;
-    }
 
     public List<List<String>> getC() {
         return c;
@@ -71,5 +71,45 @@ public class EntropyForm implements Serializable {
 
     public void setpC(List<Double> pC) {
         this.pC = pC;
+    }
+
+    public int getCountC() {
+        return countC;
+    }
+
+    public void setCountC(int countC) {
+        this.countC = countC;
+    }
+
+    public double getEntropyM() {
+        return entropyM;
+    }
+
+    public void setEntropyM(double entropyM) {
+        this.entropyM = entropyM;
+    }
+
+    public double getEntropyC() {
+        return entropyC;
+    }
+
+    public void setEntropyC(double entropyC) {
+        this.entropyC = entropyC;
+    }
+
+    public double getEntropyK() {
+        return entropyK;
+    }
+
+    public void setEntropyK(double entropyK) {
+        this.entropyK = entropyK;
+    }
+
+    public double getEntropyKC() {
+        return entropyKC;
+    }
+
+    public void setEntropyKC(double entropyKC) {
+        this.entropyKC = entropyKC;
     }
 }

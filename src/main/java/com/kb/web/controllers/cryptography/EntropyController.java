@@ -45,6 +45,14 @@ public class EntropyController {
 
     @RequestMapping(value = "/lab1", method = RequestMethod.POST, params = {"build"})
     public String build(@ModelAttribute("form") EntropyForm form, BindingResult bindingResult, Model model) {
+
+        List<Double> tmp = new ArrayList<>();
+        form.setpK(tmp);
+        List<Double> tmp2 = new ArrayList<>();
+        form.setpM(tmp2);
+        List<List<String>> s = new ArrayList<>();
+        form.setC(s);
+
         for (int i = 0; i < form.getK(); i++) {
             List<String> list = new ArrayList<>();
             form.getC().add(list);

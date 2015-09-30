@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.awt.geom.Arc2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +20,10 @@ public class EntropyService {
 
     public EntropyForm calculateProbability(EntropyForm entropyForm) {
         entropyForm.setpC(calculateProbabilityC(entropyForm.getC(), entropyForm.getpM(), entropyForm.getpK(), entropyForm.getCountC()));
+        entropyForm.setEntropyM(getEntropy(entropyForm.getpM()));
+        entropyForm.setEntropyK(getEntropy(entropyForm.getpK()));
+        entropyForm.setEntropyC(getEntropy(entropyForm.getpC()));
+        entropyForm.setEntropyKC(entropyForm.getEntropyM()+entropyForm.getEntropyK()-entropyForm.getEntropyC());
         return entropyForm;
     }
 
@@ -38,10 +43,10 @@ public class EntropyService {
         return pC;
     }
 
-    public double getEntropy(double[] p) {
+    public double getEntropy(List<Double> p) {
         double entropy = 0;
-        for (int i = 0; i < p.length; i++) {
-            entropy += (-1) * p[i] * (Math.log(p[i]) / Math.log(2));
+        for (int i = 0; i < p.size(); i++) {
+            entropy += (-1) * p.get(i) * (Math.log(p.get(i)) / Math.log(2));
         }
         return entropy;
     }
