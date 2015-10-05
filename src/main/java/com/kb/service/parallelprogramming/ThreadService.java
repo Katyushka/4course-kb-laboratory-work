@@ -31,8 +31,10 @@ public class ThreadService {
     public MidpointRuleForm calculateMidpointRuleIntegral(MidpointRuleForm midpointRuleForm, List<CalculateIntegralThread> pool, int poolSize) {
         pool.clear();
         for (int i = 0; i < poolSize; i++) {
-            pool.add(new CalculateIntegralThread(midpointRuleForm.getFunction(), midpointRuleForm.getLeft(i, poolSize), midpointRuleForm.getRight(i, poolSize),
-                    (midpointRuleForm.getRight() - midpointRuleForm.getLeft()) / midpointRuleForm.getStepsCount(), i));
+            CalculateIntegralThread thread = new CalculateIntegralThread(midpointRuleForm.getFunction(), midpointRuleForm.getLeft(i, poolSize), midpointRuleForm.getRight(i, poolSize),
+                    (midpointRuleForm.getRight() - midpointRuleForm.getLeft()) / midpointRuleForm.getStepsCount(), i);
+            thread.setPriority(midpointRuleForm.getThreadPriorities().get(i));
+            pool.add(thread);
         }
         double result = 0;
         try {

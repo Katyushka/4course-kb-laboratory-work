@@ -1,6 +1,7 @@
 package com.kb.service.parallelprogramming;
 
 import com.kb.model.parallelprogramming.dto.SortingForm;
+import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,26 +21,30 @@ public class SortService {
 
     public SortingForm getDefaultSortingForm() {
         SortingForm sortingForm = new SortingForm();
-        List<Integer> data = new ArrayList<>();
-        for (int i = 0; i < 50000; i++) {
-            Random rand = new Random();
-            data.add(rand.nextInt(1000));
-        }
+        sortingForm.setFirstData(generatingData(sortingForm.getFirstData()));
+        sortingForm.setSecondData(new ArrayList<>(sortingForm.getFirstData()));
         return sortingForm;
     }
 
 
     public SortingForm generateData(SortingForm sortingForm) {
-        sortingForm.setData(generatingData(sortingForm.getData()));
+        sortingForm.getFirstData().clear();
+        sortingForm.setFirstData(generatingData(sortingForm.getFirstData()));
+        sortingForm.setSecondData(new ArrayList<>(sortingForm.getFirstData()));
         return sortingForm;
     }
 
     private List<Integer> generatingData(List<Integer> data) {
-        Random rand = new Random();
         for (int i = 0; i < 50000; i++) {
+            Random rand = new Random();
             data.add(rand.nextInt(1000));
         }
         return data;
+    }
+
+    public void doSort(SortingForm form) {
+        qSort(form.getFirstData());
+        insertionSort(form.getSecondData());
     }
 
     private void qSort(List<Integer> array) {
@@ -69,8 +74,7 @@ public class SortService {
         }
     }
 
-
-    public void insertionSort(List<Integer> array) {
+    private void insertionSort(List<Integer> array) {
         for (int i = 0; i < array.size(); i++) {
             int temp = array.get(i);// запомним i-ый элемент
             int j = i - 1;//будем идти начиная с i-1 элемента

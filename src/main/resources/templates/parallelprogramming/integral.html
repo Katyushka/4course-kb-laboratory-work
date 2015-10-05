@@ -15,7 +15,7 @@
 
     <div class="row">
         <div class="col-md-6 col-lg-6">
-            <form th:action="@{/pp/lab1}" th:object="${midpointRuleForm}" method="post">
+            <form th:action="@{/pp/lab1/integral}" th:object="${midpointRuleForm}" method="post">
                 <div class="form-group">
                     <label for="function">Function:</label>
                     <input type="text" class="form-control" id="function" required="required" th:field="*{function}"/>
@@ -43,6 +43,12 @@
                             <select th:field="*{parallel}" class="form-control">
                                 <option value="false">False</option>
                                 <option value="true">True</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 col-lg-2" th:each="priority, id : ${midpointRuleForm.threadPriorities}">
+                            <label th:text="${'Priority ' + (id.index+1)}"></label>
+                            <select th:field="*{threadPriorities[__${id.index}__]}" class="form-control">
+                                <option th:each="i : ${#numbers.sequence( 1, 10)}" th:value="${i}" th:text="${i}"></option>
                             </select>
                         </div>
                     </div>

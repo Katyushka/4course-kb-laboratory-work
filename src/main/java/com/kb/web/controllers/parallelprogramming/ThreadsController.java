@@ -39,28 +39,36 @@ public class ThreadsController {
     private void init() {
     }
 
-    @RequestMapping("/lab1")
+    @RequestMapping("/lab1/integral")
     public String getIntegral(Model model) {
         model.addAttribute("midpointRuleForm", threadService.getDefaultMidpointRuleForm());
-        return "parallelprogramming/threads";
+        return "parallelprogramming/integral";
     }
 
-    @RequestMapping(value = "/lab1", method = RequestMethod.POST)
+    @RequestMapping(value = "/lab1/integral", method = RequestMethod.POST)
     public String calculateIntegral(@ModelAttribute("midpointRuleForm") MidpointRuleForm midpointRuleForm, BindingResult bindingResult, Model model) {
         threadService.calculateMidpointRuleIntegral(midpointRuleForm, threadPool, POOL_SIZE);
-        return "parallelprogramming/threads";
+        return "parallelprogramming/integral";
     }
 
-    @RequestMapping("/lab1_1")
+    // Task 2
+
+    @RequestMapping("/lab1/sorting")
     public String getData(Model model) {
         model.addAttribute("sortingForm", sortService.getDefaultSortingForm());
-        return "parallelprogramming/threads";
+        return "parallelprogramming/sorting";
     }
 
-    @RequestMapping(value = "/lab1_1", method = RequestMethod.POST)
+    @RequestMapping(value = "/lab1/sorting", method = RequestMethod.POST, params = "generate")
     public String generateData(@ModelAttribute("sortingForm") SortingForm sortingForm, BindingResult bindingResult, Model model) {
-        sortingForm = sortService.generateData(sortingForm);
-        return "parallelprogramming/threads";
+        sortService.generateData(sortingForm);
+        return "parallelprogramming/sorting";
+    }
+
+    @RequestMapping(value = "/lab1/sorting", method = RequestMethod.POST)
+    public String sorting(@ModelAttribute("sortingForm") SortingForm sortingForm, BindingResult bindingResult, Model model) {
+        sortService.doSort(sortingForm);
+        return "parallelprogramming/sorting";
     }
 
 

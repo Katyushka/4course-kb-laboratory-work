@@ -1,6 +1,8 @@
 package com.kb.model.parallelprogramming.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MidpointRuleForm implements Serializable {
     private static final long serialVersionUID = 29487974483160874L;
@@ -11,8 +13,12 @@ public class MidpointRuleForm implements Serializable {
     private String function;
     private double result = 0;
     private boolean parallel = false;
+    private List<Integer> threadPriorities = new ArrayList<>(3);
 
     public MidpointRuleForm() {
+        for(int i=0; i<3; i++){
+            threadPriorities.add(1);
+        }
     }
 
     public MidpointRuleForm(int stepsCount, double left, double right, String function, boolean parallel) {
@@ -21,6 +27,9 @@ public class MidpointRuleForm implements Serializable {
         this.right = right;
         this.function = function;
         this.parallel = parallel;
+        for(int i=0; i<3; i++){
+            threadPriorities.add(1);
+        }
     }
 
     public String getFunction() {
@@ -77,5 +86,13 @@ public class MidpointRuleForm implements Serializable {
 
     public void setParallel(boolean parallel) {
         this.parallel = parallel;
+    }
+
+    public List<Integer> getThreadPriorities() {
+        return threadPriorities;
+    }
+
+    public void setThreadPriorities(List<Integer> threadPriorities) {
+        this.threadPriorities = threadPriorities;
     }
 }
