@@ -1,7 +1,9 @@
 package com.kb.web.controllers.parallelprogramming;
 
 import com.kb.model.parallelprogramming.dto.MidpointRuleForm;
+import com.kb.model.parallelprogramming.dto.SortingForm;
 import com.kb.service.parallelprogramming.CalculateIntegralThread;
+import com.kb.service.parallelprogramming.SortService;
 import com.kb.service.parallelprogramming.ThreadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,9 @@ public class ThreadsController {
     @Autowired
     private ThreadService threadService;
 
+    @Autowired
+    private SortService sortService;
+
     private List<CalculateIntegralThread> threadPool = new ArrayList<>();
 
     @PostConstruct
@@ -45,4 +50,18 @@ public class ThreadsController {
         threadService.calculateMidpointRuleIntegral(midpointRuleForm, threadPool, POOL_SIZE);
         return "parallelprogramming/threads";
     }
+
+    @RequestMapping("/lab1_1")
+    public String getData(Model model) {
+        model.addAttribute("sortingForm", sortService.getDefaultSortingForm());
+        return "parallelprogramming/threads";
+    }
+
+    @RequestMapping(value = "/lab1_1", method = RequestMethod.POST)
+    public String generateData(@ModelAttribute("sortingForm") SortingForm sortingForm, BindingResult bindingResult, Model model) {
+        sortingForm = sortService.generateData(sortingForm);
+        return "parallelprogramming/threads";
+    }
+
+
 }
