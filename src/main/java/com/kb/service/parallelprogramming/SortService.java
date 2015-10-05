@@ -3,6 +3,7 @@ package com.kb.service.parallelprogramming;
 import com.kb.model.parallelprogramming.dto.SortingForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,13 +13,15 @@ import java.util.Random;
 /**
  * Created by user on 05.10.15.
  */
+
+@Service
 public class SortService {
     private static final Logger log = LoggerFactory.getLogger(SortService.class);
 
-    public SortingForm getDefaultSortingForm(){
+    public SortingForm getDefaultSortingForm() {
         SortingForm sortingForm = new SortingForm();
         List<Integer> data = new ArrayList<>();
-        for (int i =0; i<50000; i++) {
+        for (int i = 0; i < 50000; i++) {
             Random rand = new Random();
             data.add(rand.nextInt(1000));
         }
