@@ -1,5 +1,6 @@
 package com.kb.service.parallelprogramming;
 
+import com.kb.model.parallelprogramming.dto.SortingData;
 import com.kb.model.parallelprogramming.dto.SortingForm;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
@@ -20,17 +21,14 @@ public class SortService {
     private static final Logger log = LoggerFactory.getLogger(SortService.class);
 
     public SortingForm getDefaultSortingForm() {
-        SortingForm sortingForm = new SortingForm();
-        sortingForm.setFirstData(generatingData(sortingForm.getFirstData()));
-        sortingForm.setSecondData(new ArrayList<>(sortingForm.getFirstData()));
-        return sortingForm;
+        return generateData(new SortingForm());
     }
 
-
     public SortingForm generateData(SortingForm sortingForm) {
-        sortingForm.getFirstData().clear();
-        sortingForm.setFirstData(generatingData(sortingForm.getFirstData()));
-        sortingForm.setSecondData(new ArrayList<>(sortingForm.getFirstData()));
+        clearData(sortingForm);
+        SortingData sortingData = new SortingData(generatingData(sortingForm.getQuickSortingData().getData()));
+        sortingForm.setQuickSortingData(sortingData);
+        sortingForm.setInsertionSortingData(new SortingData(new ArrayList<Integer>(sortingData.getData())));
         return sortingForm;
     }
 
@@ -43,35 +41,47 @@ public class SortService {
     }
 
     public void doSort(SortingForm form) {
-        qSort(form.getFirstData());
-        insertionSort(form.getSecondData());
+        qSort(form.getQuickSortingData());
+        insertionSort(form.getInsertionSortingData());
     }
 
-    private void qSort(List<Integer> array) {
-        int n = array.size();
+    private void qSort(SortingData sortingData) {
+        long t1 = System.currentTimeMillis();
+        qSort(sortingData.getData());
+        sortingData.setDuration(System.currentTimeMillis() - t1);
+    }
+
+    private void qSort(List<Integer> data) {
+        int n = data.size();
         int i = 0;
         int j = n - 1;
         Random rand = new Random();
-        int x = array.get(rand.nextInt(n));
+        int x = data.get(rand.nextInt(n));
         while (i <= j) {
-            while (array.get(i) < x) {
+            while (data.get(i) < x) {
                 i++;
             }
-            while (array.get(j) > x) {
+            while (data.get(j) > x) {
                 j--;
             }
             if (i <= j) {
-                Collections.swap(array, i, j);
+                Collections.swap(data, i, j);
                 i++;
                 j--;
             }
         }
         if (j > 0) {
-            qSort(array.subList(0, j + 1));
+            qSort(data.subList(0, j + 1));
         }
         if (i < n) {
-            qSort(array.subList(i, n));
+            qSort(data.subList(i, n));
         }
+    }
+
+    private void insertionSort(SortingData sortingData) {
+        long t1 = System.currentTimeMillis();
+        insertionSort(sortingData.getData());
+        sortingData.setDuration(System.currentTimeMillis() - t1);
     }
 
     private void insertionSort(List<Integer> array) {
@@ -92,5 +102,9 @@ public class SortService {
         }
     }
 
+    private void clearData(SortingForm form) {
+        form.getInsertionSortingData().getData().clear();
+        form.getQuickSortingData().getData().clear();
+    }
 
 }

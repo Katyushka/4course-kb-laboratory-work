@@ -17,17 +17,27 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6 col-lg-6">
-                    <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('firstData')">First data</a>
+                    <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('firstData')">Quick sort data</a>
 
-                    <div style=" display:none;" id="firstData" th:text="${sortingForm.firstData}"></div>
-                    <input type="hidden" th:field="*{firstData}"/>
+                    <div style=" display:none;" id="firstData" th:text="${sortingForm.quickSortingData.data}"></div>
+                    <input type="hidden" th:field="*{quickSortingData.data}"/>
                 </div>
                 <div class="col-md-6 col-lg-6">
-                    <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('secondData')">Second data</a>
+                    <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('secondData')">Insertion sort data</a>
 
-                    <div style=" display:none;" id="secondData" th:text="${sortingForm.secondData}"></div>
-                    <input type="hidden" th:field="*{secondData}"/>
+                    <div style=" display:none;" id="secondData" th:text="${sortingForm.insertionSortingData.data}"></div>
+                    <input type="hidden" th:field="*{insertionSortingData.data}"/>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <span th:text="${'duration: ' + sortingForm.quickSortingData.duration + 'ms'}"></span>
+                <input type="hidden" th:field="*{quickSortingData.duration}"/>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <span th:text="${'duration: ' + sortingForm.insertionSortingData.duration + 'ms'}"></span>
+                <input type="hidden" th:field="*{insertionSortingData.duration}"/>
             </div>
         </div>
         <div class="row">

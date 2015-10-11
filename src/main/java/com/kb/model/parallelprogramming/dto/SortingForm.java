@@ -8,22 +8,24 @@ import java.util.List;
  * Created by user on 05.10.15.
  */
 public class SortingForm implements Serializable {
-    private List<Integer> firstData = new ArrayList<>();
-    private List<Integer> secondData = new ArrayList<>();
+    private static final long serialVersionUID = -4368991793569531187L;
 
-    public List<Integer> getSecondData() {
-        return secondData;
+    private SortingData quickSortingData = new SortingData();
+    private SortingData insertionSortingData = new SortingData();
+
+    public SortingData getQuickSortingData() {
+        return quickSortingData;
     }
 
-    public void setSecondData(List<Integer> secondData) {
-        this.secondData = secondData;
+    public void setQuickSortingData(SortingData quickSortingData) {
+        this.quickSortingData = quickSortingData;
     }
 
-    public List<Integer> getFirstData() {
-        return firstData;
+    public SortingData getInsertionSortingData() {
+        return insertionSortingData;
     }
 
-    public void setFirstData(List<Integer> firstData) {
-        this.firstData = firstData;
+    public void setInsertionSortingData(SortingData insertionSortingData) {
+        this.insertionSortingData = insertionSortingData;
     }
 }
