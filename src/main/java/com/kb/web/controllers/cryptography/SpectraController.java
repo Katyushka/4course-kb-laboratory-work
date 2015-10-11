@@ -1,6 +1,7 @@
 package com.kb.web.controllers.cryptography;
 
 import com.kb.model.cryptography.dto.SpectraForm;
+import com.kb.model.cryptography.dto.TableSpectraForm;
 import com.kb.service.cryptography.SpectraService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ public class SpectraController {
     @Autowired
     private SpectraService spectraService;
 
+
+
     @RequestMapping(value = "/lab2", method = RequestMethod.GET)
     public String getIntegral(Model model) {
         SpectraForm form = new SpectraForm();
@@ -34,6 +37,14 @@ public class SpectraController {
     public String build(@ModelAttribute("form") SpectraForm form, BindingResult bindingResult, Model model) {
         form = spectraService.calculateSpectrumFourier(form);
         return "cryptography/lab2";
+    }
+
+    @RequestMapping(value = "/lab3", method = RequestMethod.GET)
+    public String generatingTable(Model model) {
+        TableSpectraForm form = new TableSpectraForm();
+        model.addAttribute("form", form);
+        spectraService.calculatingTable(form);
+        return "cryptography/lab3";
     }
 
 }
