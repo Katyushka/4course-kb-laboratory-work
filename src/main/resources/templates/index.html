@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css"/>
     <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 </head>
 <body>
 <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
-    <div class="row panel">
+    <div class="row panel" style="margin-bottom: 0!important;">
         <div class="col-md-4 bg_blur ">
 
         </div>
@@ -31,12 +32,52 @@
 
     <div class="row nav">
         <div class="col-md-4"></div>
-        <div class="col-md-8 col-xs-12" style="margin: 0px;padding: 0px;">
-            <div class="col-md-4 col-xs-4 well"><i></i>menu 1</div>
-            <div class="col-md-4 col-xs-4 well"><i></i>menu 2</div>
-            <div class="col-md-4 col-xs-4 well"><i></i>menu 3</div>
+        <div class="col-md-8 col-xs-12">
+            <div class='row' id='cssmenu'>
+                <ul class="col-lg-12 col-md-12 list-inline">
+                    <div class="row">
+                        <li class='col-lg-4 col-md-4 has-sub'><a href='#'><span>Parallel pr.</span></a>
+                            <ul class="col-lg-12" style="width: 90%">
+                                <li><a th:href="@{/pp/lab1/integral}"><span>Lab 1 Integral</span></a></li>
+                                <li><a th:href="@{/pp/lab1/sorting}"><span>Lab 1 Sorting</span></a></li>
+                                <li class='last'><a href='#'><span>reserved</span></a></li>
+                            </ul>
+                        </li>
+                        <li class='col-lg-4 col-md-4 has-sub'><a href='#'><span>Other</span></a>
+                            <ul class="col-lg-12" style="width: 90%">
+                                <li><a href='#'><span>test</span></a></li>
+                                <li><a href='#'><span>test</span></a></li>
+                                <li class='last'><a href='#'><span>test</span></a></li>
+                            </ul>
+                        </li>
+                        <li class='col-lg-4 col-md-4 has-sub'><a href='#'><span>Other</span></a>
+                            <ul style="width: 90%">
+                                <li><a href='#'><span>test</span></a></li>
+                                <li class='last'><a href='#'><span>test</span></a></li>
+                            </ul>
+                        </li>
+                    </div>
+                </ul>
+            </div>
         </div>
     </div>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+
+                var menu = $('#cssmenu');
+                var menuList = menu.find('ul:first');
+                var listItems = menu.find('li').not('#responsive-tab');
+
+                menuList.prepend('<li id="responsive-tab"><a href="#">Menu</a></li>');
+
+                menu.on('click', '#responsive-tab', function () {
+                    listItems.slideToggle('fast');
+                    listItems.addClass('collapsed');
+                });
+            });
+        })(jQuery);
+    </script>
 </div>
 </body>
 </html>

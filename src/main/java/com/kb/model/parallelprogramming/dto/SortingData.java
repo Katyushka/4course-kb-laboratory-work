@@ -12,6 +12,7 @@ public class SortingData implements Serializable{
 
     private long duration = 0;
     private List<Integer> data = new ArrayList<>();
+    private long status = 0;
 
     public SortingData() {
     }
@@ -34,5 +35,13 @@ public class SortingData implements Serializable{
 
     public void setData(List<Integer> data) {
         this.data = data;
+    }
+
+    public long getStatus() {
+        return status;
+    }
+
+    public void setStatus(long status) {
+        this.status = status;
     }
 }

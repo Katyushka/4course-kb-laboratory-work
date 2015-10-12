@@ -13,7 +13,7 @@
     <h1>Lab 1: Sorting</h1>
     <hr/>
 
-    <form th:action="@{/pp/lab1/sorting}" th:object="${sortingForm}" method="post">
+    <form id="form" th:action="@{/pp/lab1/sorting}" th:object="${sortingForm}" method="post">
         <div class="form-group">
             <div class="row">
                 <div class="col-md-6 col-lg-6">
@@ -42,10 +42,28 @@
         </div>
         <div class="row">
             <div class="col-md-6 col-lg-6">
+                <div class="progress">
+                    <div id="qSortProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                        40% Complete (success)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="progress">
+                    <div id="insertionProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                         aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                        40% Complete (success)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
                 <button type="submit" class="btn btn-success form-control" name="generate">Generate data</button>
             </div>
             <div class="col-md-6 col-lg-6">
-                <button type="submit" class="btn btn-success form-control">Start sorting</button>
+                <button id="start" class="btn btn-success form-control">Start sorting</button>
             </div>
         </div>
     </form>
@@ -55,6 +73,19 @@
     function toggler(divId) {
         $("#" + divId).toggle();
     }
+
+    $("#start").on("click", function () {
+        //      $("#form").submit();
+        getQuickSortStatus();
+    });
+
+    function getQuickSortStatus() {
+        $.post("/pp/lab1/sorting/status?type=qSort", function (data) {
+            $("#qSortProgress").css("with", data + "%");
+            $("#qSortProgress").text(data + '% Complete');
+        });
+    }
+
 </script>
 </body>
 </html>

@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -69,6 +66,12 @@ public class ThreadsController {
     public String sorting(@ModelAttribute("sortingForm") SortingForm sortingForm, BindingResult bindingResult, Model model) {
         sortService.doSort(sortingForm);
         return "parallelprogramming/sorting";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/lab1/sorting/status", method = RequestMethod.POST)
+    public Long getStatus(@ModelAttribute("sortingForm") SortingForm sortingForm, @RequestParam("type") String type) {
+        return sortingForm.getQuickSortingData().getStatus();
     }
 
 
