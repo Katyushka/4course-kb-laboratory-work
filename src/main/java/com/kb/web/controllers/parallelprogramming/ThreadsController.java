@@ -1,6 +1,7 @@
 package com.kb.web.controllers.parallelprogramming;
 
 import com.kb.model.parallelprogramming.dto.MidpointRuleForm;
+import com.kb.model.parallelprogramming.dto.SortingDataPair;
 import com.kb.model.parallelprogramming.dto.SortingForm;
 import com.kb.service.parallelprogramming.CalculateIntegralThread;
 import com.kb.service.parallelprogramming.SortService;
@@ -30,6 +31,8 @@ public class ThreadsController {
     @Autowired
     private SortService sortService;
 
+    private SortingDataPair sortingDataPair;
+
     private List<CalculateIntegralThread> threadPool = new ArrayList<>();
 
     @PostConstruct
@@ -52,26 +55,29 @@ public class ThreadsController {
 
     @RequestMapping("/lab1/sorting")
     public String getData(Model model) {
-        model.addAttribute("sortingForm", sortService.getDefaultSortingForm());
+        sortingDataPair = sortService.generateData();
+        model.addAttribute("sortingForm", new SortingForm(sortingDataPair));
         return "parallelprogramming/sorting";
     }
 
     @RequestMapping(value = "/lab1/sorting", method = RequestMethod.POST, params = "generate")
-    public String generateData(@ModelAttribute("sortingForm") SortingForm sortingForm, BindingResult bindingResult, Model model) {
-        sortService.generateData(sortingForm);
+    public String generateData(Model model) {
+        sortingDataPair = sortService.generateData();
+        model.addAttribute("sortingForm", new SortingForm(sortingDataPair));
         return "parallelprogramming/sorting";
     }
 
     @RequestMapping(value = "/lab1/sorting", method = RequestMethod.POST)
-    public String sorting(@ModelAttribute("sortingForm") SortingForm sortingForm, BindingResult bindingResult, Model model) {
-        sortService.doSort(sortingForm);
+    public String sorting(Model model) {
+        sortService.doSort(sortingDataPair);
+        model.addAttribute("sortingForm", new SortingForm(sortingDataPair));
         return "parallelprogramming/sorting";
     }
 
     @ResponseBody
     @RequestMapping(value = "/lab1/sorting/status", method = RequestMethod.POST)
-    public Long getStatus(@ModelAttribute("sortingForm") SortingForm sortingForm, @RequestParam("type") String type) {
-        return sortingForm.getQuickSortingData().getStatus();
+    public Long getStatus(@RequestParam("type") String type) {
+        return 1L;
     }
 
 

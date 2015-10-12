@@ -1,6 +1,7 @@
 package com.kb.service.parallelprogramming;
 
 import com.kb.model.parallelprogramming.dto.SortingData;
+import com.kb.model.parallelprogramming.dto.SortingDataPair;
 import com.kb.model.parallelprogramming.dto.SortingForm;
 import org.apache.commons.lang3.SerializationUtils;
 import org.slf4j.Logger;
@@ -12,24 +13,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by user on 05.10.15.
- */
-
 @Service
 public class SortService {
     private static final Logger log = LoggerFactory.getLogger(SortService.class);
 
-    public SortingForm getDefaultSortingForm() {
-        return generateData(new SortingForm());
-    }
-
-    public SortingForm generateData(SortingForm sortingForm) {
-        clearData(sortingForm);
-        SortingData sortingData = new SortingData(generatingData(sortingForm.getQuickSortingData().getData()));
-        sortingForm.setQuickSortingData(sortingData);
-        sortingForm.setInsertionSortingData(new SortingData(new ArrayList<Integer>(sortingData.getData())));
-        return sortingForm;
+    public SortingDataPair generateData() {
+        SortingDataPair sortingDataPair = new SortingDataPair();
+        SortingData sortingData = new SortingData(generatingData(sortingDataPair.getQuickSortingData().getData()));
+        sortingDataPair.setQuickSortingData(sortingData);
+        sortingDataPair.setInsertionSortingData(new SortingData(new ArrayList<Integer>(sortingData.getData())));
+        return sortingDataPair;
     }
 
     private List<Integer> generatingData(List<Integer> data) {
@@ -40,9 +33,9 @@ public class SortService {
         return data;
     }
 
-    public void doSort(SortingForm form) {
-        qSort(form.getQuickSortingData());
-        insertionSort(form.getInsertionSortingData());
+    public void doSort(SortingDataPair sortingDataPair) {
+        qSort(sortingDataPair.getQuickSortingData());
+        insertionSort(sortingDataPair.getInsertionSortingData());
     }
 
     private void qSort(SortingData sortingData) {
@@ -102,9 +95,9 @@ public class SortService {
         }
     }
 
-    private void clearData(SortingForm form) {
-        form.getInsertionSortingData().getData().clear();
-        form.getQuickSortingData().getData().clear();
+    private void clearData(SortingDataPair sortingDataPair) {
+        sortingDataPair.getInsertionSortingData().getData().clear();
+        sortingDataPair.getQuickSortingData().getData().clear();
     }
 
 }

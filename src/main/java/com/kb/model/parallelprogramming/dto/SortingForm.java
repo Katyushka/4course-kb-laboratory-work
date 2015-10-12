@@ -4,28 +4,50 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by user on 05.10.15.
- */
 public class SortingForm implements Serializable {
     private static final long serialVersionUID = -4368991793569531187L;
 
-    private SortingData quickSortingData = new SortingData();
-    private SortingData insertionSortingData = new SortingData();
+    private List<Integer> quickSortingDataBegin = new ArrayList<>();
+    private List<Integer> insertionSortingDataBegin = new ArrayList<>();
+    private long quickSortDuration = 0;
+    private long insertionSortDuration = 0;
 
-    public SortingData getQuickSortingData() {
-        return quickSortingData;
+    public SortingForm(SortingDataPair sortingDataPair) {
+        quickSortingDataBegin = new ArrayList<>(sortingDataPair.getQuickSortingData().getData().subList(0, 1000));
+        insertionSortingDataBegin = new ArrayList<>(sortingDataPair.getInsertionSortingData().getData().subList(0, 1000));
+        quickSortDuration = sortingDataPair.getQuickSortingData().getDuration();
+        insertionSortDuration = sortingDataPair.getInsertionSortingData().getDuration();
     }
 
-    public void setQuickSortingData(SortingData quickSortingData) {
-        this.quickSortingData = quickSortingData;
+    public List<Integer> getInsertionSortingDataBegin() {
+        return insertionSortingDataBegin;
     }
 
-    public SortingData getInsertionSortingData() {
-        return insertionSortingData;
+    public void setInsertionSortingDataBegin(List<Integer> insertionSortingDataBegin) {
+        this.insertionSortingDataBegin = insertionSortingDataBegin;
     }
 
-    public void setInsertionSortingData(SortingData insertionSortingData) {
-        this.insertionSortingData = insertionSortingData;
+    public List<Integer> getQuickSortingDataBegin() {
+        return quickSortingDataBegin;
+    }
+
+    public void setQuickSortingDataBegin(List<Integer> quickSortingDataBegin) {
+        this.quickSortingDataBegin = quickSortingDataBegin;
+    }
+
+    public long getQuickSortDuration() {
+        return quickSortDuration;
+    }
+
+    public void setQuickSortDuration(long quickSortDuration) {
+        this.quickSortDuration = quickSortDuration;
+    }
+
+    public long getInsertionSortDuration() {
+        return insertionSortDuration;
+    }
+
+    public void setInsertionSortDuration(long insertionSortDuration) {
+        this.insertionSortDuration = insertionSortDuration;
     }
 }

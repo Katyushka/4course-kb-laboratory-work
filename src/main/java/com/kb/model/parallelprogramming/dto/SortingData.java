@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Chernov Artur on 11.10.15.
- */
 public class SortingData implements Serializable{
     private static final long serialVersionUID = -5848727080566986560L;
 
