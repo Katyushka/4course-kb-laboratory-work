@@ -11,6 +11,10 @@ public class SortingForm implements Serializable {
     private List<Integer> insertionSortingDataBegin = new ArrayList<>();
     private long quickSortDuration = 0;
     private long insertionSortDuration = 0;
+    private String status;
+
+    public SortingForm() {
+    }
 
     public SortingForm(SortingDataPair sortingDataPair) {
         quickSortingDataBegin = new ArrayList<>(sortingDataPair.getQuickSortingData().getData().subList(0, 1000));
@@ -49,5 +53,13 @@ public class SortingForm implements Serializable {
 
     public void setInsertionSortDuration(long insertionSortDuration) {
         this.insertionSortDuration = insertionSortDuration;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -5,63 +5,64 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
     <h1>Lab 1: Sorting</h1>
     <hr/>
 
-    <form id="form" th:action="@{/pp/lab1/sorting}" th:object="${sortingForm}" method="post">
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6 col-lg-6">
-                    <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('firstData')">Quick sort data</a>
-                    <div style=" display:none;" id="firstData" th:text="${sortingForm.quickSortingDataBegin}"></div>
-                </div>
-                <div class="col-md-6 col-lg-6">
-                    <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('secondData')">Insertion sort data</a>
-                    <div style=" display:none;" id="secondData" th:text="${sortingForm.insertionSortingDataBegin}"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6">
-                <span th:text="${'duration: ' + sortingForm.quickSortDuration + 'ms'}"></span>
-            </div>
-            <div class="col-md-6 col-lg-6">
-                <span th:text="${'duration: ' + sortingForm.insertionSortDuration + 'ms'}"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6">
-                <div class="progress">
-                    <div id="qSortProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                         aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                        40% Complete (success)
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6">
-                <div class="progress">
-                    <div id="insertionProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                         aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                        40% Complete (success)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-lg-6">
-                <button type="submit" class="btn btn-success form-control" name="generate">Generate data</button>
-            </div>
-            <div class="col-md-6 col-lg-6">
-                <button id="start" class="btn btn-success form-control">Start sorting</button>
-            </div>
-        </div>
-    </form>
 
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('firstData')">Quick sort data</a>
+
+                <div style=" display:none;" id="firstData" th:text="${sortingForm.quickSortingDataBegin}"></div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('secondData')">Insertion sort data</a>
+
+                <div style=" display:none;" id="secondData" th:text="${sortingForm.insertionSortingDataBegin}"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <span th:text="${'duration: ' + sortingForm.quickSortDuration + 'ms'}"></span>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <span th:text="${'duration: ' + sortingForm.insertionSortDuration + 'ms'}"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="progress">
+                <div id="qSortProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                     aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                    40% Complete (success)
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="progress">
+                <div id="insertionProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                     aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                    40% Complete (success)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <button class="btn btn-success form-control" name="generate">Generate data</button>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <button id="start" class="btn btn-success form-control">Start sorting</button>
+        </div>
+    </div>
 </div>
 <script>
     function toggler(divId) {
@@ -69,14 +70,20 @@
     }
 
     $("#start").on("click", function () {
-        //      $("#form").submit();
-        getQuickSortStatus();
+        startSorting();
+        //getQuickSortStatus();
     });
 
     function getQuickSortStatus() {
-        $.post("/pp/lab1/sorting/status?type=qSort", function (data) {
+        $.post("/pp/lab1/sorting/action?type=qSort", function (data) {
             $("#qSortProgress").css("with", data + "%");
             $("#qSortProgress").text(data + '% Complete');
+        });
+    }
+
+    function startSorting() {
+        $.post("/pp/lab1/sorting/action?type=start", function (data) {
+            alert(data);
         });
     }
 

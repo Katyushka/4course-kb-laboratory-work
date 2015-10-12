@@ -26,7 +26,7 @@ public class SortService {
     }
 
     private List<Integer> generatingData(List<Integer> data) {
-        for (int i = 0; i < 50000; i++) {
+        for (int i = 0; i < 100000; i++) {
             Random rand = new Random();
             data.add(rand.nextInt(1000));
         }
@@ -40,64 +40,14 @@ public class SortService {
 
     private void qSort(SortingData sortingData) {
         long t1 = System.currentTimeMillis();
-        qSort(sortingData.getData());
+        new SortingThread(sortingData, "qSort").start();
         sortingData.setDuration(System.currentTimeMillis() - t1);
-    }
-
-    private void qSort(List<Integer> data) {
-        int n = data.size();
-        int i = 0;
-        int j = n - 1;
-        Random rand = new Random();
-        int x = data.get(rand.nextInt(n));
-        while (i <= j) {
-            while (data.get(i) < x) {
-                i++;
-            }
-            while (data.get(j) > x) {
-                j--;
-            }
-            if (i <= j) {
-                Collections.swap(data, i, j);
-                i++;
-                j--;
-            }
-        }
-        if (j > 0) {
-            qSort(data.subList(0, j + 1));
-        }
-        if (i < n) {
-            qSort(data.subList(i, n));
-        }
     }
 
     private void insertionSort(SortingData sortingData) {
         long t1 = System.currentTimeMillis();
-        insertionSort(sortingData.getData());
+        new SortingThread(sortingData, "insertionSort").start();
         sortingData.setDuration(System.currentTimeMillis() - t1);
-    }
-
-    private void insertionSort(List<Integer> array) {
-        for (int i = 0; i < array.size(); i++) {
-            int temp = array.get(i);// запомним i-ый элемент
-            int j = i - 1;//будем идти начиная с i-1 элемента
-            while (j >= 0 && array.get(j) > temp)
-            // пока не достигли начала массива
-            // или не нашли элемент больше i-1-го
-            // который храниться в переменной temp
-            {
-                array.set(j + 1, array.get(j));
-                //проталкиваем элемент вверх
-                j--;
-            }
-            array.set(j + 1, temp);
-            // возвращаем i-1 элемент
-        }
-    }
-
-    private void clearData(SortingDataPair sortingDataPair) {
-        sortingDataPair.getInsertionSortingData().getData().clear();
-        sortingDataPair.getQuickSortingData().getData().clear();
     }
 
 }
