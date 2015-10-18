@@ -1,11 +1,19 @@
 package com.kb.util;
 
+import com.kb.model.parallelprogramming.dto.SortingData;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class SortUtils {
-    public static void qSort(List<Integer> data) {
+
+    public static void qSort(SortingData sortingData) {
+        qSort(sortingData, sortingData.getData());
+    }
+
+    private static void qSort(SortingData sortingData, List<Integer> data) {
+        sortingData.setCurrentCount(sortingData.getCurrentCount() + 1);
         int n = data.size();
         int i = 0;
         int j = n - 1;
@@ -25,28 +33,33 @@ public class SortUtils {
             }
         }
         if (j > 0) {
-            qSort(data.subList(0, j + 1));
+            qSort(sortingData, data.subList(0, j + 1));
         }
         if (i < n) {
-            qSort(data.subList(i, n));
+            qSort(sortingData, data.subList(i, n));
         }
     }
 
-    public static void insertionSort(List<Integer> array) {
-        for (int i = 0; i < array.size(); i++) {
-            int temp = array.get(i);// запомним i-ый элемент
+    public static void insertionSort(SortingData sortingData) {
+        insertionSort(sortingData, sortingData.getData());
+    }
+
+    private static void insertionSort(SortingData sortingData, List<Integer> data) {
+        for (int i = 0; i < data.size(); i++) {
+            int temp = data.get(i);// запомним i-ый элемент
             int j = i - 1;//будем идти начиная с i-1 элемента
-            while (j >= 0 && array.get(j) > temp)
+            while (j >= 0 && data.get(j) > temp)
             // пока не достигли начала массива
             // или не нашли элемент больше i-1-го
             // который храниться в переменной temp
             {
-                array.set(j + 1, array.get(j));
+                data.set(j + 1, data.get(j));
                 //проталкиваем элемент вверх
                 j--;
             }
-            array.set(j + 1, temp);
+            data.set(j + 1, temp);
             // возвращаем i-1 элемент
+            sortingData.setStatus(Math.round(i * 100 / data.size()));
         }
     }
 }

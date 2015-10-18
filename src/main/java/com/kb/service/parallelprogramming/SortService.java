@@ -22,6 +22,7 @@ public class SortService {
         SortingData sortingData = new SortingData(generatingData(sortingDataPair.getQuickSortingData().getData()));
         sortingDataPair.setQuickSortingData(sortingData);
         sortingDataPair.setInsertionSortingData(new SortingData(new ArrayList<Integer>(sortingData.getData())));
+        sortingDataPair.getQuickSortingData().setExpectedCount(Math.round(100000 * Math.log10(100000)));
         return sortingDataPair;
     }
 
@@ -40,13 +41,17 @@ public class SortService {
 
     private void qSort(SortingData sortingData) {
         long t1 = System.currentTimeMillis();
-        new SortingThread(sortingData, "qSort").start();
+        sortingData.setThread(new SortingThread(sortingData, "qSort"));
+        sortingData.getThread().start();
+        log.debug("qSort duration: " + (System.currentTimeMillis() - t1));
         sortingData.setDuration(System.currentTimeMillis() - t1);
     }
 
     private void insertionSort(SortingData sortingData) {
         long t1 = System.currentTimeMillis();
-        new SortingThread(sortingData, "insertionSort").start();
+        sortingData.setThread(new SortingThread(sortingData, "insertionSort"));
+        sortingData.getThread().start();
+        log.debug("insertionSort duration: " + (System.currentTimeMillis() - t1));
         sortingData.setDuration(System.currentTimeMillis() - t1);
     }
 

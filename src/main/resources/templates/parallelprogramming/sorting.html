@@ -18,46 +18,44 @@
     <div class="form-group">
         <div class="row">
             <div class="col-md-6 col-lg-6">
-                <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('firstData')">Quick sort data</a>
+                <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('qsData')">Quick sort data</a>
 
-                <div style=" display:none;" id="firstData" th:text="${sortingForm.quickSortingDataBegin}"></div>
+                <div style=" display:none;" id="qsData" th:text="${sortingForm.quickSortingDataBegin}"></div>
             </div>
             <div class="col-md-6 col-lg-6">
-                <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('secondData')">Insertion sort data</a>
+                <a class="btn btn-primary form-control" style="margin-top: 15px;" onclick="toggler('insertData')">Insertion sort data</a>
 
-                <div style=" display:none;" id="secondData" th:text="${sortingForm.insertionSortingDataBegin}"></div>
+                <div style=" display:none;" id="insertData" th:text="${sortingForm.insertionSortingDataBegin}"></div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-6">
-            <span th:text="${'duration: ' + sortingForm.quickSortDuration + 'ms'}"></span>
+            <span id="qSortDuration" th:text="${'duration: ' + sortingForm.quickSortDuration + 'ms'}"></span>
         </div>
         <div class="col-md-6 col-lg-6">
-            <span th:text="${'duration: ' + sortingForm.insertionSortDuration + 'ms'}"></span>
+            <span id="insertionSortDuration" th:text="${'duration: ' + sortingForm.insertionSortDuration + 'ms'}"></span>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-6">
             <div class="progress">
-                <div id="qSortProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                     aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                    40% Complete (success)
+                <div id="qSortProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+                     aria-valuemin="0" aria-valuemax="100" style="width:0">
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-lg-6">
             <div class="progress">
-                <div id="insertionProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
-                     aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                    40% Complete (success)
+                <div id="insertionProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+                     aria-valuemin="0" aria-valuemax="100" style="width:0">
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-6">
-            <button class="btn btn-success form-control" name="generate">Generate data</button>
+            <a class="btn btn-success form-control" name="generate" th:href="@{/pp/lab1/sorting}">Generate data</a>
         </div>
         <div class="col-md-6 col-lg-6">
             <button id="start" class="btn btn-success form-control">Start sorting</button>
@@ -71,19 +69,29 @@
 
     $("#start").on("click", function () {
         startSorting();
-        //getQuickSortStatus();
     });
 
-    function getQuickSortStatus() {
-        $.post("/pp/lab1/sorting/action?type=qSort", function (data) {
-            $("#qSortProgress").css("with", data + "%");
-            $("#qSortProgress").text(data + '% Complete');
+    function getSortStatus() {
+        $.post("/pp/lab1/sorting/action?type=status", function (data) {
+            $("#insertionProgress").css('width', data.insertionSortStatus + '%').attr('aria-valuenow', data.insertionSortStatus);
+            $("#insertionProgress").text(data.insertionSortStatus + '% Complete');
+            $("#qSortProgress").css('width', data.quickSortStatus + '%').attr('aria-valuenow', data.quickSortStatus);
+            $("#qSortProgress").text(data.quickSortStatus + '% Complete');
+            $("#qSortDuration").text("duration: " + data.quickSortDuration + "ms");
+            $("#insertionSortDuration").text("duration: " + data.insertionSortDuration + "ms");
+            if (!data.complete) {
+                setTimeout(getSortStatus, 300);
+            } else {
+                $("#qsData").text("[" + data.quickSortingDataBegin.join(", ") + "]");
+                $("#insertData").text("[" + data.insertionSortingDataBegin.join(", ") + "]");
+                return;
+            }
         });
     }
 
     function startSorting() {
         $.post("/pp/lab1/sorting/action?type=start", function (data) {
-            alert(data);
+            getSortStatus();
         });
     }
 

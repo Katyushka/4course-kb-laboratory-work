@@ -77,12 +77,12 @@ public class ThreadsController {
     @ResponseBody
     @RequestMapping(value = "/lab1/sorting/action", method = RequestMethod.POST)
     public SortingForm getStatus(@RequestParam("type") String type) {
-        log.debug("srart sorting");
         if ("start".equals(type)) {
+            log.debug("start sorting");
             sortService.doSort(sortingDataPair);
         }
         SortingForm sortingForm = new SortingForm(sortingDataPair);
-        sortingForm.setStatus("success");
+   //     sortingForm.setStatus("success");
         return sortingForm;
     }
 
