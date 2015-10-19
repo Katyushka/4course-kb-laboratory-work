@@ -34,6 +34,13 @@ public class SortingThread extends Thread {
         super.start();
     }
 
+    @Override
+    public synchronized void interrupt() {
+        log.error("Thread " + type + " interrupted.");
+        super.interrupt();
+    }
+
+
     public SortingData getSortingData() {
         return sortingData;
     }

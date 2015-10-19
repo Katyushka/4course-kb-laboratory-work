@@ -61,6 +61,15 @@
             <button id="start" class="btn btn-success form-control">Start sorting</button>
         </div>
     </div>
+    <p></p>
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <a class="btn btn-danger form-control" name="pause" th:href="@{/pp/lab1/sorting}">Pause</a>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <a class="btn btn-danger form-control" name="interrupt" th:href="@{/pp/lab1/sorting}">Interrupt</a>
+        </div>
+    </div>
 </div>
 <script>
     function toggler(divId) {

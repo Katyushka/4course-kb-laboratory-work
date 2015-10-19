@@ -74,6 +74,24 @@ public class ThreadsController {
         return "parallelprogramming/sorting";
     }
 
+    @RequestMapping(value = "/lab1/sorting", method = RequestMethod.POST, params = "pause")
+    public String pauseSortingData(Model model) {
+        //sortingDataPair = sortService.generateData();
+        log.error("PAUSE!!!");
+        try {
+            sortingDataPair.getInsertionSortingData().getThread().sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            sortingDataPair.getQuickSortingData().getThread().sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("sortingForm", new SortingForm(sortingDataPair));
+        return "parallelprogramming/sorting";
+    }
+
     @ResponseBody
     @RequestMapping(value = "/lab1/sorting/action", method = RequestMethod.POST)
     public SortingForm getStatus(@RequestParam("type") String type) {

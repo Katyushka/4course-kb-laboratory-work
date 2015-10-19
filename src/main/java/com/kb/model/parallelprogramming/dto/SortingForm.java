@@ -20,8 +20,8 @@ public class SortingForm implements Serializable {
     }
 
     public SortingForm(SortingDataPair sortingDataPair) {
-        quickSortingDataBegin = new ArrayList<>(sortingDataPair.getQuickSortingData().getData().subList(0, 1000));
-        insertionSortingDataBegin = new ArrayList<>(sortingDataPair.getInsertionSortingData().getData().subList(0, 1000));
+        quickSortingDataBegin = new ArrayList<>(sortingDataPair.getQuickSortingData().getData().subList(0, 100000));
+        insertionSortingDataBegin = new ArrayList<>(sortingDataPair.getInsertionSortingData().getData().subList(0, 100000));
         quickSortDuration = (sortingDataPair.getQuickSortingData().getEndTime() == 0) ?
                 System.currentTimeMillis() - (sortingDataPair.getQuickSortingData().getStartTime() == 0 ? System.currentTimeMillis() : sortingDataPair.getQuickSortingData().getStartTime()) :
                 sortingDataPair.getQuickSortingData().getEndTime() -

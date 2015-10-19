@@ -29,7 +29,7 @@ public class SortService {
     private List<Integer> generatingData(List<Integer> data) {
         for (int i = 0; i < 100000; i++) {
             Random rand = new Random();
-            data.add(rand.nextInt(1000));
+            data.add(-10000+rand.nextInt(20000));
         }
         return data;
     }
