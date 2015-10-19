@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+    <script th:src="@{/js/parallelprogramming/lab1.js}"></script>
 </head>
 <body>
 <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
@@ -65,68 +65,12 @@
 
     <div class="row">
         <div class="col-md-6 col-lg-6">
-            <a class="btn btn-danger form-control" id="pause">Pause</a>
+            <a class="btn btn-danger form-control" id="pause" disabled="disabled">Pause</a>
         </div>
         <div class="col-md-6 col-lg-6">
-            <a class="btn btn-danger form-control" name="interrupt" th:href="@{/pp/lab1/sorting}">Interrupt</a>
+            <a class="btn btn-danger form-control" id="abort" disabled="disabled">Interrupt</a>
         </div>
     </div>
 </div>
-<script>
-    function toggler(divId) {
-        $("#" + divId).toggle();
-    }
-
-    $("#start").on("click", function () {
-        startSorting();
-    });
-
-    $("#pause").on("click", function () {
-        pause();
-    });
-
-    function getSortStatus() {
-        $.post("/pp/lab1/sorting/action?type=status", function (data) {
-            $("#insertionProgress").css('width', data.insertionSortStatus + '%').attr('aria-valuenow', data.insertionSortStatus);
-            $("#insertionProgress").text(data.insertionSortStatus + '% Complete');
-            $("#qSortProgress").css('width', data.quickSortStatus + '%').attr('aria-valuenow', data.quickSortStatus);
-            $("#qSortProgress").text(data.quickSortStatus + '% Complete');
-            $("#qSortDuration").text("duration: " + data.quickSortDuration + "ms");
-            $("#insertionSortDuration").text("duration: " + data.insertionSortDuration + "ms");
-            if (!data.complete) {
-                setTimeout(getSortStatus, 300);
-            } else {
-                $("#qsData").text("[" + data.quickSortingDataBegin.join(", ") + "]");
-                $("#insertData").text("[" + data.insertionSortingDataBegin.join(", ") + "]");
-                return;
-            }
-        });
-    }
-
-    function startSorting() {
-        $.post("/pp/lab1/sorting/action?type=start", function (data) {
-            getSortStatus();
-        });
-    }
-
-    function pause() {
-        $.post("/pp/lab1/sorting/action?type=pause", function (data) {
-            if (data.paused) {
-                $("#pause").text("resume");
-                if (data.quickSortStatus != 100) {
-                    $("#qSortProgress").removeClass("progress-bar-success").addClass("progress-bar-warning");
-                }
-                if (data.insertionSortStatus != 100) {
-                    $("#insertionProgress").removeClass("progress-bar-success").addClass("progress-bar-warning");
-                }
-            } else {
-                $("#pause").text("pause");
-                $("#qSortProgress").removeClass("progress-bar-warning").addClass("progress-bar-success");
-                $("#insertionProgress").removeClass("progress-bar-warning").addClass("progress-bar-success");
-            }
-        });
-    }
-
-</script>
 </body>
 </html>

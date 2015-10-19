@@ -74,4 +74,9 @@ public class SortService {
         }
     }
 
+    public void abort(SortingDataPair sortingDataPair) {
+        sortingDataPair.getQuickSortingData().getThread().interrupt();
+        sortingDataPair.getInsertionSortingData().getThread().interrupt();
+    }
+
 }

@@ -18,6 +18,11 @@ public class SortUtils {
                 sortingData.getThread().wait();
             }
         }
+        synchronized (sortingData.getThread()) {
+            if (sortingData.getThread().isInterrupted()) {
+                return;
+            }
+        }
         sortingData.setCurrentCount(sortingData.getCurrentCount() + 1);
         int n = data.size();
         int i = 0;
@@ -54,6 +59,11 @@ public class SortUtils {
             while (sortingData.getThread().isPause()) {
                 synchronized (sortingData.getThread()) {
                     sortingData.getThread().wait();
+                }
+            }
+            synchronized (sortingData.getThread()) {
+                if (sortingData.getThread().isInterrupted()) {
+                    return;
                 }
             }
             int temp = data.get(i);// запомним i-ый элемент

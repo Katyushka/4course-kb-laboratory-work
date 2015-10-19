@@ -11,7 +11,7 @@ public class SortingThread extends Thread {
 
     private SortingData sortingData;
     private String type;
-    private boolean pause = false;
+    private volatile boolean pause = false;
 
     public SortingThread(SortingData sortingData, String type) {
         this.sortingData = sortingData;

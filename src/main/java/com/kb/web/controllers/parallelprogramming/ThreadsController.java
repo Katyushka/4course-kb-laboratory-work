@@ -83,6 +83,9 @@ public class ThreadsController {
         } else if ("pause".equals(type)) {
             log.debug("fire pause/resume action");
             sortService.pause(sortingDataPair);
+        } else if ("abort".equals(type)) {
+            log.debug("fire abort action");
+            sortService.abort(sortingDataPair);
         }
         return new SortingForm(sortingDataPair);
     }
