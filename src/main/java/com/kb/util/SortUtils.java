@@ -8,11 +8,16 @@ import java.util.Random;
 
 public class SortUtils {
 
-    public static void qSort(SortingData sortingData) {
+    public static void qSort(SortingData sortingData) throws InterruptedException {
         qSort(sortingData, sortingData.getData());
     }
 
-    private static void qSort(SortingData sortingData, List<Integer> data) {
+    private static void qSort(SortingData sortingData, List<Integer> data) throws InterruptedException {
+        while (sortingData.getThread().isPause()) {
+            synchronized (sortingData.getThread()) {
+                sortingData.getThread().wait();
+            }
+        }
         sortingData.setCurrentCount(sortingData.getCurrentCount() + 1);
         int n = data.size();
         int i = 0;
@@ -40,12 +45,17 @@ public class SortUtils {
         }
     }
 
-    public static void insertionSort(SortingData sortingData) {
+    public static void insertionSort(SortingData sortingData) throws InterruptedException {
         insertionSort(sortingData, sortingData.getData());
     }
 
-    private static void insertionSort(SortingData sortingData, List<Integer> data) {
+    private static void insertionSort(SortingData sortingData, List<Integer> data) throws InterruptedException {
         for (int i = 0; i < data.size(); i++) {
+            while (sortingData.getThread().isPause()) {
+                synchronized (sortingData.getThread()) {
+                    sortingData.getThread().wait();
+                }
+            }
             int temp = data.get(i);// запомним i-ый элемент
             int j = i - 1;//будем идти начиная с i-1 элемента
             while (j >= 0 && data.get(j) > temp)

@@ -14,6 +14,7 @@ public class SortingForm implements Serializable {
     private long quickSortStatus = 0;
     private long insertionSortStatus = 0;
     private boolean complete = false;
+    private boolean paused = false;
 
 
     public SortingForm() {
@@ -40,6 +41,9 @@ public class SortingForm implements Serializable {
             insertionSortStatus = 100;
         } else {
             insertionSortStatus = sortingDataPair.getInsertionSortingData().getStatus();
+        }
+        if (sortingDataPair.getInsertionSortingData().getThread() != null) {
+            paused = sortingDataPair.getInsertionSortingData().getThread().isPause() || sortingDataPair.getQuickSortingData().getThread().isPause();
         }
     }
 
@@ -97,5 +101,13 @@ public class SortingForm implements Serializable {
 
     public void setComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

@@ -29,7 +29,7 @@ public class SortService {
     private List<Integer> generatingData(List<Integer> data) {
         for (int i = 0; i < 100000; i++) {
             Random rand = new Random();
-            data.add(-10000+rand.nextInt(20000));
+            data.add(-10000 + rand.nextInt(20000));
         }
         return data;
     }
@@ -53,6 +53,25 @@ public class SortService {
         sortingData.getThread().start();
         log.debug("insertionSort duration: " + (System.currentTimeMillis() - t1));
         sortingData.setDuration(System.currentTimeMillis() - t1);
+    }
+
+    public void pause(SortingDataPair sortingDataPair) {
+        if (!sortingDataPair.getInsertionSortingData().getThread().isPause()) {
+            sortingDataPair.getInsertionSortingData().getThread().setPause(true);
+        } else {
+            synchronized (sortingDataPair.getInsertionSortingData().getThread()) {
+                sortingDataPair.getInsertionSortingData().getThread().notify();
+            }
+            sortingDataPair.getInsertionSortingData().getThread().setPause(false);
+        }
+        if (!sortingDataPair.getQuickSortingData().getThread().isPause()) {
+            sortingDataPair.getQuickSortingData().getThread().setPause(true);
+        } else {
+            synchronized (sortingDataPair.getQuickSortingData().getThread()) {
+                sortingDataPair.getQuickSortingData().getThread().notify();
+            }
+            sortingDataPair.getQuickSortingData().getThread().setPause(false);
+        }
     }
 
 }
