@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lab 4: Linear shift register </title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootgetParsevalEqualitystrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
+    <h1>Lab 4: Linear shift register</h1>
+    <hr/>
+    <form th:action="@{/crypt/lab4}" th:object="${form}" th:method="post">
+        <div class="row">
+            <div class="col-md-12 col-lg-12">
+                <div class="form-group">
+                    <label for="n">Степень многочлена n:</label>
+                    <input type="text" class="form-control" id="n" required="required" th:field="*{n}"/>
+                </div>
+                <button class="form-control btn btn-success" name="build" type="submit">build</button>
+
+                <label style="margin-top: 15px;">Введите коэффициенты многочлена:</label>
+
+                <div th:if="${form.initialVector.size()>0}">
+                    <table style="margin-top: 15px;">
+                        <tr>
+                            <td th:each="row, rowId : ${form.initialVector}" style="margin-right: 10px;">
+                                <input class="form-control" type="text" th:field="*{initialVector[__${rowId.index}__]}"/>
+                                <label style="margin-top: 15px;"></label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <button class="form-control btn btn-success" name="generate" type="submit"
+                        style="margin-top: 15px;">generate
+                </button>
+
+                <div>
+                    <label style="margin-top: 15px;">Последовательность:</label>
+                    <span th:text="${form.getResult()}"></span>
+                </div>
+                <div>
+                    <label style="margin-top: 15px;">Порядок последовательности:</label>
+                    <span th:text="${form.getOrderSequence()}"></span>
+                </div>
+
+                <div>
+                    <label style="margin-top: 15px;">Порядок многочлена:</label>
+                    <span th:text="${form.getOrderPolynom()}"></span>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>
+</body>
+</html>
